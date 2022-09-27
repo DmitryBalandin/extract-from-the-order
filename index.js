@@ -2,8 +2,8 @@ const mammoth = require("mammoth");
 const fs = require('fs');
 let script = require('./script');
 const docx = require("docx");
-const { funcTableToArrayItem, funcArrayValueToNormDoubleArray } = require("./modificatonDocument");
-const createSectionExtract = require('./createDocExtract');
+const { funcTableToArrayItem, funcArrayValueToNormDoubleArray } = require("./controllers/modificatonDocument");
+const createSectionExtract = require('./controllers/createDocExtract');
 
 
 const dateOrder = {

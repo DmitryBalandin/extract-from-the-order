@@ -1,6 +1,6 @@
 const docx = require("docx");
 const fs = require("fs");
-const log = require('./index');
+const log = require('../index');
 
 
 
