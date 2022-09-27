@@ -59,4 +59,6 @@ function arrayFromPrimaryToFullNameAndStimulation(mapValue, arrSort) {
 
 
 
-module.exports = {funcTableToArrayItem, funcArrayValueToNormDoubleArray, };
+module.exports = {
+    funcTableToArrayItem,
+     funcArrayValueToNormDoubleArray, };
