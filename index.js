@@ -25,8 +25,5 @@ mammoth.convertToHtml({ path: './documentdocx/order.docx' })
     
 
 
-// script = JSON.stringify(script);
 
-// setTimeout(() => fs.writeFile('./text.html', `${date}${script}`, () => { }), 2000);
-
-// setTimeout(()=> fs.appendFile('./text.html',"ikoweioweffkindkondsfkon", () => { }),3000);
+module.exports = fs;
