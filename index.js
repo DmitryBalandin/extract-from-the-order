@@ -11,15 +11,7 @@ const multer = require('multer');
 
 const { funcTableToArrayItem, funcArrayValueToNormDoubleArray } = require("./controllers/modificatonDocument");
 const createSectionExtract = require('./controllers/createDocExtract');
-let script = require('./script');
 
-const dateOrder = {
-    date: '12.04.2022',
-    numberDetachment: "5",
-    numberOrder: "134-ос",
-    fullNameChief: "Тропин В.А.",
-    rankChief: "капитан вн.сл.",
-};
 
 const app = express();
 const PORT = 3000;
@@ -29,31 +21,49 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname));
 app.use(multer({dest:"uploads"}).single("filedata"));
+
+
 app.post("/upload", function (req, res, next) {
    
     let filedata = req.file;
+    console.log(req.body);
     console.log(filedata);
     if(!filedata)
         res.send("Ошибка при загрузке файла");
-    else
+    else{
     console.log(filedata.filename);
-        res.send("Файл загружен");
+     (async () =>{ 
+        await log(filedata.filename, req.body);
+        fs.unlink(path.resolve(__dirname,'uploads',filedata.filename),(err) =>{
+            if(err) console.log(err);
+            console.log("file in unloads deleted")
+        })
+        res.setHeader('Content-Type','application/msword');
+        await res.sendFile(path.resolve(__dirname,`${filedata.filename}.docx`))
+        setTimeout(()=>(fs.unlink(path.resolve(__dirname,`${filedata.filename}.docx`),(err) =>{
+            if(err) console.log(err);
+            console.log("file deleted")
+        })),5000)
+    })();
+
+     console.log(typeof filedata.filename);
+       
+    }
 });
 
 app.post('/',(req,res)=>{
     const {date,numberDetachment,numberOrder,fullNameChief,fileOrder} = req.body;
-    console.log(req.path);
+   
     
 })
 
 
 
-log = () => {
+log = (pathDoc,dateOrder) => {
     const result =
-        mammoth.convertToHtml({ path: './documentdocx/order.docx' })
+        mammoth.convertToHtml({ path: `./uploads/${pathDoc}` })
             .then(result =>  JSON.stringify(result))
             .then((result, reject) => {
-                fs.writeFile('./text2.html', `${result}`, () => { })
                 return (funcTableToArrayItem(result));
             })
             .then(result => { let arrName = funcArrayValueToNormDoubleArray(result) 
@@ -71,9 +81,10 @@ log = () => {
                
                 return doc;
             }).then( doc => docx.Packer.toBuffer(doc))
-            .then(buffer => fs.writeFileSync("My Document.docx", buffer));
+            .then(buffer => fs.writeFileSync(`${pathDoc}.docx`, buffer));
                 return result;
 };
+
 
 
 app.get('/', (req, res) => {

@@ -11,7 +11,7 @@ const funcTableToArrayItem = function tableToArrayItem(valueString) {
     return arrayCellTable;
 }
 
-
+// Дописать если в документе нет строки в количесвом символов менее 20 что делать
 const funcArrayValueToNormDoubleArray = function arrayValueToNormDoubleArray(arrayValue) {
     let mapValue;
     let arrSort = [];
